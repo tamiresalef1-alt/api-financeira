@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Dashboard Financeira</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📊 Minhas Transações</h2>
+        <canvas id="meuGrafico"></canvas>
+        <table id="tabelaDados">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descrição</th>
+                    <th>Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function carregarDados() {
+            const response = await fetch('http://localhost:3000/dados');
+            const dados = await response.json();
+            
+            const corpoTabela = document.querySelector('#tabelaDados tbody');
+            const descricoes = [];
+            const valores = [];
+
+            dados.forEach(item => {
+                // Preenche a tabela
+                corpoTabela.innerHTML += `<tr><td>${item.id}</td><td>${item.descricao}</td><td>${item.valor.toFixed(2)}</td></tr>`;
+                // Prepara dados para o gráfico
+                descricoes.push(item.descricao);
+                valores.push(item.valor);
+            });
+
+            // Cria o gráfico
+            new Chart(document.getElementById('meuGrafico'), {
+                type: 'bar',
+                data: {
+                    labels: descricoes,
+                    datasets: [{
+                        label: 'Valor das Transações',
+                        data: valores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+        carregarDados();
+    </script>
+</body>
+</html>
