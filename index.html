@@ -5,12 +5,30 @@
     <title>Minha Dashboard Financeira</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #007bff; color: white; }
-        h2 { color: #333; }
+        /* Isso muda o fundo para um preto elegante */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; 
+    color: white;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Isso deixa o quadrado do gráfico escuro e moderno */
+.container {
+    max-width: 800px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border-bottom: 5px solid #388e3c; /* Detalhe verde embaixo */
+}
+
+h2 {
+    color: #ffeb3b; /* Título em Amarelo Reggae */
+}
     </style>
 </head>
 <body>
@@ -54,9 +72,19 @@
                     datasets: [{
                         label: 'Valor das Transações',
                         data: valores,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1
+                        backgroundColor: [
+                '#e53935', // Vermelho
+                '#fbc02d', // Amarelo
+                '#388e3c'  // Verde
+            ],
+            borderColor: [
+                '#b71c1c', 
+                '#f9a825', 
+                '#2e7d32'
+            ],
+            borderWidth: 2
+                        
+                
                     }]
                 }
             });
