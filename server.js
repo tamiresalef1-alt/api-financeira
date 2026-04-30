@@ -1,42 +1,28 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db'); // Importa a conexão do seu arquivo db.js
+const path = require('path');
+const db = require('./db');
 
 const app = express();
-app.use(express.json()); // Fundamental para o Postman e o Dashboard funcionarem
-app.use(cors()); // Libera o acesso para outras pessoas verem seu dashboard
 
-// Rota de teste: Acesse https://onrender.com para ver essa mensagem
-app.get('/', (req, res) => {
-    res.send('API Financeira Online! 🚀');
-});
+app.use(express.json());
+app.use(cors());
 
-// Rota para BUSCAR dados (GET)
+// Serve o frontend
+app.use(express.static(path.join(__dirname)));
+
+// Rota para buscar os dados
 app.get('/dados', async (req, res) => {
     try {
-        // No PostgreSQL, usamos db.query e os resultados vêm em .rows
-        const result = await db.query('SELECT * FROM Transacoes');
+        const result = await db.query('SELECT * FROM financeira');
         res.json(result.rows);
     } catch (err) {
-        res.status(500).send('Erro ao buscar dados: ' + err.message);
+        console.error("Erro no banco:", err.message);
+        res.status(500).json({ error: "Erro ao buscar dados" });
     }
 });
 
-// Rota para CADASTRAR dados (POST)
-app.post('/dados', async (req, res) => {
-    try {
-        const { descricao, valor } = req.body; 
-        
-        // No PostgreSQL, usamos $1, $2 para evitar ataques e erros
-        await db.query('INSERT INTO Transacoes (descricao, valor) VALUES ($1, $2)', [descricao, valor]);
-            
-        res.status(201).json({ mensagem: 'Cadastrado com sucesso! 🎉' });
-    } catch (err) {
-        res.status(500).send('Erro ao salvar: ' + err.message);
-    }
-});
-
-// O Render define a porta automaticamente, por isso usamos process.env.PORT
+// Configuração da Porta
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
