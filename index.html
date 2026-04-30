@@ -18,12 +18,16 @@ body {
 
 /* Isso deixa o quadrado do gráfico escuro e moderno */
 .container {
-    max-width: 800px;
+    width: 95%; 
+    max-width: 800px; 
+    margin: 20px auto; /* Centraliza tudo */
     background-color: #1e1e1e;
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    border-bottom: 5px solid #388e3c; /* Detalhe verde embaixo */
+} /* VERIFIQUE SE ESSA CHAVE ESTÁ AQUI */
+
+h2 {
+    color: #ffeb3b; /* Título em Amarelo Reggae */
 }
 
 h2 {
@@ -33,9 +37,13 @@ h2 {
 </head>
 <body>
     <div class="container">
-        <h2>📊 Minhas Transações</h2>
+    <h2>📊 Minhas Transações</h2>
+    
+    <div style="position: relative; height: 300px; width: 100%;">
         <canvas id="meuGrafico"></canvas>
-        <table id="tabelaDados">
+    </div>
+    
+    <table id="tabelaDados">
             <thead>
                 <tr>
                     <th>ID</th>
