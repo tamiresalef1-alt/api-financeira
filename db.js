@@ -1,13 +1,12 @@
 const { Pool } = require('pg');
+require('dotenv').config(); // ADICIONE ESTA LINHA AQUI
 
-// O Render injeta a DATABASE_URL automaticamente através das variáveis de ambiente que configuramos
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false // Necessário para conexões seguras no Render
+    rejectUnauthorized: false
   }
 });
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-};
+// Exporta o pool diretamente para o server.js usar
+module.exports = pool;
